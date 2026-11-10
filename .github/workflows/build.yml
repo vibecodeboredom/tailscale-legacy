@@ -1,0 +1,52 @@
+# Tailscale Legacy — build the F-Droid debug APK (no Google Play Services,
+# so it installs on old devices without Google Play).
+# Mirrors upstream tailscale-android's build.yml, but builds the fdroid
+# flavor and pins the Android SDK packages the 1.60.1 base needs.
+
+name: Build Debug APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: 'go.mod'
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install Android SDK packages
+      run: |
+        yes | sdkmanager --licenses > /dev/null
+        sdkmanager "platforms;android-33" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620" "platform-tools"
+
+    - name: Build F-Droid debug APK
+      run: make tailscale-fdroid.apk
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: TailscaleLegacy-debug
+        path: tailscale-fdroid.apk

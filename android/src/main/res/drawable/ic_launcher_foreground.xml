@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tailscale Legacy launcher foreground: a bold white "L" on the
+     indigo background (see ic_launcher_background). Distinct from the
+     official Tailscale dot-mark so the two apps are easy to tell apart. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34,22h14v52h34v14H34z"/>
+    <path
+        android:fillColor="#8EC5FF"
+        android:pathData="M82,82m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0"/>
+</vector>
