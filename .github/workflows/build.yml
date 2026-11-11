@@ -37,15 +37,12 @@ jobs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
       with:
-        # Explicit package list — the action's default tries to install
-        # the obsolete 'tools' package, which no longer exists and fails
-        # the run (sdkmanager: "Failed to find package 'tools'").
-        packages: |
-          platforms;android-33
-          platforms;android-31
-          build-tools;33.0.2
-          ndk;23.1.7779620
-          platform-tools
+        # Explicit package list, space-separated on one line — the
+        # action's default tries to install the obsolete 'tools'
+        # package, which no longer exists and fails the run. A
+        # multi-line list is passed as one package name and also
+        # fails, so keep it on a single line.
+        packages: "platforms;android-33 platforms;android-31 build-tools;33.0.2 ndk;23.1.7779620 platform-tools"
 
     - name: Accept SDK licenses
       run: yes | sdkmanager --licenses > /dev/null
